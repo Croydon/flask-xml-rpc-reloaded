@@ -1,0 +1,4 @@
+Flask-XML-RPC
+
+This is a library that lets your Flask apps provide XML-RPC APIs. A small
+example is included.
