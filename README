@@ -2,3 +2,9 @@ Flask-XML-RPC
 
 This is a library that lets your Flask apps provide XML-RPC APIs. A small
 example is included.
+
+PyPI Record:   http://pypi.python.org/Flask-XML-RPC
+Documentation: http://packages.python.org/Flask-XML-RPC
+Bitbucket:     http://bitbucket.org/leafstorm/flask-xml-rpc/
+
+(Thanks to Armin Ronacher for the logo.)

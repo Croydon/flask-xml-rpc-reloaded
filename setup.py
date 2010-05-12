@@ -9,7 +9,7 @@ Links
 
 * `documentation <http://packages.python.org/Flask-XML-RPC>`_
 * `development version
-  <http://bitbucket.org/leafstorm/flask-xml-rpc/get/tip.gz#egg=Flask-XML-RPC-dev`_
+  <http://bitbucket.org/leafstorm/flask-xml-rpc/get/tip.gz#egg=Flask-XML-RPC-dev>`_
 
 
 """
