@@ -16,7 +16,6 @@ import xmlrpclib
 
 Fault = xmlrpclib.Fault
 
-
 class XMLRPCHandler(Dispatcher):
     """
     This is the basic XML-RPC handler class. To use it, you create it::
@@ -272,6 +271,7 @@ def test_xmlrpc_call(client, rpc_path, method, *params):
         content_type='text/xml'
     )
     return load_method_response(rv.data)
+test_xmlrpc_call.__test__ = False   # prevents Nose from collecting it
 
 
 class XMLRPCTester(object):
@@ -284,6 +284,8 @@ class XMLRPCTester(object):
     :param client: A :obj:`werkzeug.Client`.
     :param rpc_path: The path to the XML-RPC handler.
     """
+    __test__ = False    # prevents Nose from collecting it
+    
     def __init__(self, client, rpc_path):
         self.client = client
         self.rpc_path = rpc_path
