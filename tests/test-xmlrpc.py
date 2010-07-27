@@ -7,6 +7,7 @@ Tests for Flask-XML-RPC.
 :copyright: (c) 2010 by Matthew "LeafStorm" Frazier.
 :license: MIT, see LICENSE for more details.
 """
+import xmlrpclib
 from flask import Flask
 from flaskext.xmlrpc import (XMLRPCHandler, XMLRPCNamespace, Fault,
                              dump_method_call, load_method_response,
@@ -58,3 +59,45 @@ class TestHandler(object):
         
         misc.register(hello)
         assert handler.funcs['ns.misc.hello'] is hello
+    
+    def test_call(self):
+        handler = XMLRPCHandler('api')
+        app = Flask(__name__)
+        handler.connect(app, '/api')
+        handler.register(hello)
+        
+        data = dump_method_call('hello', 'Steve')
+        client = app.test_client()
+        rv = client.post('/api', data=data, content_type='text/xml')
+        res = load_method_response(rv.data)
+        assert res == 'Hello, Steve!'
+
+
+class TestTestingUtils(object):
+    METHOD_RESPONSE = '''\
+<?xml version='1.0'?>
+<methodResponse>
+<params>
+<param>
+<value><string>Hello, world!</string></value>
+</param>
+</params>
+</methodResponse>
+'''
+    
+    def test_dump_method_call(self):
+        assert (dump_method_call('hello', 'world') ==
+                xmlrpclib.dumps(('world',), methodname='hello'))
+    
+    def test_load_method_response(self):
+        assert (load_method_response(self.METHOD_RESPONSE) ==
+                'Hello, world!')
+    
+    def test_test_xmlrpc_call(self):
+        handler = XMLRPCHandler('api')
+        app = Flask(__name__)
+        handler.connect(app, '/api')
+        handler.register(hello)
+        
+        assert (test_xmlrpc_call(app.test_client(), '/api', 'hello') ==
+                'Hello, world!')
