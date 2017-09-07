@@ -8,11 +8,10 @@ Links
 `````
 
 * `documentation <http://packages.python.org/Flask-XML-RPC-Re>`_
-* `development
-  <https://github.com/Croydon/flask-xml-rpc-reloaded>`_
-
+* `development <https://github.com/Croydon/flask-xml-rpc-reloaded>`_
 
 """
+
 from setuptools import setup
 
 setup(
@@ -24,8 +23,8 @@ setup(
     author_email='flask@go-dev.de',
     description='Adds support for creating XML-RPC APIs to Flask',
     long_description=__doc__,
-    packages=['flaskext', 'flask_xmlrpcre'],
-    namespace_packages=['flaskext', 'flask_xmlrpcre'],
+    packages=['flaskext'],
+    namespace_packages=['flaskext'],
     zip_safe=False,
     platforms='any',
     install_requires=[
@@ -33,6 +32,7 @@ setup(
     ],
     tests_require='nose',
     test_suite='nose.collector',
+    keywords='XML-RPC',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
