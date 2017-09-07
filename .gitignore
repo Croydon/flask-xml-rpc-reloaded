@@ -1,7 +1,8 @@
 *~
 *.pyc
 *.pyo
+build/*
 docs/build/*
-*egg-info*
 dist/*
 *.egg/*
+*egg-info*
