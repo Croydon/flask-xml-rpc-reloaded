@@ -15,9 +15,9 @@ This version should be 100% compatible and therefore a drop-in replacement for F
 
 
 ## Resources
- * PyPI Record:            http://pypi.python.org/Flask-XML-RPC-Re
- * Documentation:          http://packages.python.org/Flask-XML-RPC-Re
+ * PyPI Record:            https://pypi.python.org/pypi/Flask-XML-RPC-Re
+ * Documentation:          https://pythonhosted.org/Flask-XML-RPC/
  * GitHub:                 https://github.com/Croydon/flask-xml-rpc-reloaded
- * Original (abandoned):   http://bitbucket.org/leafstorm/flask-xml-rpc/
+ * Original (abandoned):   https://bitbucket.org/leafstorm/flask-xml-rpc/
 
 Thanks to Armin Ronacher for the logo.
