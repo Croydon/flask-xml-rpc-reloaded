@@ -1,15 +1,15 @@
-.. Flask-XML-RPC documentation master file, created by
+.. Flask-XML-RPC-Re documentation master file, created by
    sphinx-quickstart on Mon May 10 10:44:09 2010.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 =============
-Flask-XML-RPC
+Flask-XML-RPC-Re
 =============
 
 .. module:: flaskext.xmlrpc
 
-Flask-XML-RPC is an extension for `Flask`_ that makes it easy to create APIs
+Flask-XML-RPC-Re is an extension for `Flask`_ that makes it easy to create APIs
 based on the `XML-RPC`_ standard.
 
 .. _Flask: http://flask.pocoo.org/
@@ -25,17 +25,17 @@ Features
 
 Install
 =======
-If you're using easy_install, then run this command to install Flask-XML-RPC:
+If you're using easy_install, then run this command to install Flask-XML-RPC-Re:
 
 .. sourcecode:: console
    
-   $ easy_install Flask-XML-RPC
+   $ easy_install Flask-XML-RPC-Re
 
 Or, if you're using `pip`_ (which is recommended, since it's awesome):
 
 .. sourcecode:: console
    
-   $ pip install Flask-XML-RPC
+   $ pip install Flask-XML-RPC-Re
 
 .. _pip: http://pip.openplans.org/
 
@@ -43,7 +43,7 @@ Or, if you're using `pip`_ (which is recommended, since it's awesome):
 A Simple Example
 ================
 This is a REALLY simple example of how to create your own API using
-Flask-XML-RPC. ::
+Flask-XML-RPC-Re. ::
 
     from flask import Flask
     from flaskext.xmlrpc import XMLRPCHandler, Fault

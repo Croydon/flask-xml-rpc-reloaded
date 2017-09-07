@@ -2,7 +2,7 @@
 """
 test-xmlrpc.py
 ==============
-Tests for Flask-XML-RPC.
+Tests for Flask-XML-RPC-Re.
 
 :copyright: (c) 2010 by Matthew "LeafStorm" Frazier.
 :license: MIT, see LICENSE for more details.

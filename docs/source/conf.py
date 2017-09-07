@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Flask-XML-RPC documentation build configuration file, created by
+# Flask-XML-RPC-Re documentation build configuration file, created by
 # sphinx-quickstart on Mon May 10 10:44:09 2010.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Flask-XML-RPC'
+project = u'Flask-XML-RPC-Re'
 copyright = u'2010, Matthew "LeafStorm" Frazier'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -161,7 +161,7 @@ html_static_path = ['_static']
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Flask-XML-RPCdoc'
+htmlhelp_basename = 'Flask-XML-RPC-Redoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -175,7 +175,7 @@ htmlhelp_basename = 'Flask-XML-RPCdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Flask-XML-RPC.tex', u'Flask-XML-RPC Documentation',
+  ('index', 'Flask-XML-RPC-Re.tex', u'Flask-XML-RPC-Re Documentation',
    u'Matthew "LeafStorm" Frazier', 'manual'),
 ]
 

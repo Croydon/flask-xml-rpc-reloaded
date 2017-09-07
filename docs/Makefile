@@ -61,9 +61,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/Flask-XML-RPC.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/Flask-XML-RPC-Re.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/Flask-XML-RPC.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/Flask-XML-RPC-Re.qhc"
 
 latex:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
