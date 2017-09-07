@@ -7,7 +7,7 @@
 Flask-XML-RPC-Re
 =============
 
-.. module:: flaskext.xmlrpc
+.. module:: flask_xmlrpcre
 
 Flask-XML-RPC-Re is an extension for `Flask`_ that makes it easy to create APIs
 based on the `XML-RPC`_ standard.
@@ -46,7 +46,7 @@ This is a REALLY simple example of how to create your own API using
 Flask-XML-RPC-Re. ::
 
     from flask import Flask
-    from flaskext.xmlrpc import XMLRPCHandler, Fault
+    from flask_xmlrpcre import XMLRPCHandler, Fault
     
     app = Flask(__name__)
     
@@ -137,19 +137,19 @@ For other languages, please check their documentation.
 
 API Documentation
 =================
-.. autoclass:: flaskext.xmlrpc.XMLRPCHandler
+.. autoclass:: flask_xmlrpcre.XMLRPCHandler
    :members:
 
-.. autoclass:: flaskext.xmlrpc.XMLRPCNamespace
+.. autoclass:: flask_xmlrpcre.XMLRPCNamespace
    :members:
 
 Testing API
 -----------
-.. autoclass:: flaskext.xmlrpc.XMLRPCTester
+.. autoclass:: flask_xmlrpcre.XMLRPCTester
    :members:
 
-.. autofunction:: flaskext.xmlrpc.test_xmlrpc_call
+.. autofunction:: flask_xmlrpcre.test_xmlrpc_call
 
-.. autofunction:: flaskext.xmlrpc.dump_method_call
+.. autofunction:: flask_xmlrpcre.dump_method_call
 
-.. autofunction:: flaskext.xmlrpc.load_method_response
+.. autofunction:: flask_xmlrpcre.load_method_response

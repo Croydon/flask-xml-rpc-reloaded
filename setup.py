@@ -8,8 +8,8 @@ Links
 `````
 
 * `documentation <http://packages.python.org/Flask-XML-RPC-Re>`_
-* `development version
-  <http://bitbucket.org/leafstorm/flask-xml-rpc/get/tip.gz#egg=Flask-XML-RPC-Re-dev>`_
+* `development
+  <https://github.com/Croydon/flask-xml-rpc-reloaded>`_
 
 
 """
@@ -24,8 +24,8 @@ setup(
     author_email='flask@go-dev.de',
     description='Adds support for creating XML-RPC APIs to Flask',
     long_description=__doc__,
-    packages=['flaskext'],
-    namespace_packages=['flaskext'],
+    packages=['flaskext', 'flask_xmlrpcre'],
+    namespace_packages=['flaskext', 'flask_xmlrpcre'],
     zip_safe=False,
     platforms='any',
     install_requires=[

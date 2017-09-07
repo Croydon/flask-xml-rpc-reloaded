@@ -9,7 +9,7 @@ Tests for Flask-XML-RPC-Re.
 """
 
 from flask import Flask
-from flaskext.xmlrpc import (XMLRPCHandler, XMLRPCNamespace, Fault,
+from flask_xmlrpcre import (XMLRPCHandler, XMLRPCNamespace, Fault,
                              dump_method_call, load_method_response,
                              test_xmlrpc_call, XMLRPCTester)
 

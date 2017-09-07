@@ -12,7 +12,7 @@ import os
 import flaskr
 import unittest
 import tempfile
-from flaskext.xmlrpc import XMLRPCTester, Fault
+from flask_xmlrpcre import XMLRPCTester, Fault
 
 
 class FlaskrTestCase(unittest.TestCase):
@@ -65,11 +65,11 @@ class FlaskrTestCase(unittest.TestCase):
         assert 'No entries here so far' not in rv.data
         assert '&lt;Hello&gt' in rv.data
         assert '<strong>HTML</strong> allowed here' in rv.data
-    
+
     def test_xmlrpc(self):
         """Verify that the API methods work"""
         tester = XMLRPCTester(self.app, '/api')
-        
+
         assert tester('flaskr.new_post',
             flaskr.USERNAME, flaskr.PASSWORD, 'API Post', "The API works!"
         ) is True
@@ -77,15 +77,15 @@ class FlaskrTestCase(unittest.TestCase):
         assert tester('flaskr.new_post',
             flaskr.USERNAME, flaskr.PASSWORD, 'API Post 2', "Same deal."
         ) is True
-        
+
         entries = tester('flaskr.get_posts')
         assert entries[0] == {'title': 'API Post', 'text': "The API works!"}
         assert entries[1] == {'title': 'API Post 2', 'text': "Same deal."}
-    
+
     def test_xmlrpc_fault(self):
         """Verify that the API authenticates properly"""
         tester = XMLRPCTester(self.app, '/api')
-        
+
         fault = tester('flaskr.new_post',
             '', '', 'Bad Post', "This post should not be here."
         )
