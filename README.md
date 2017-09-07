@@ -21,3 +21,4 @@ This version should be 100% compatible and therefore a drop-in replacement for F
  * Original (abandoned):   https://bitbucket.org/leafstorm/flask-xml-rpc/
 
 Thanks to Armin Ronacher for the logo.
+Thanks to [Matthew "LeafStorm" Frazier](https://github.com/leafstorm) for creating the original Flask-XML-RPC.
