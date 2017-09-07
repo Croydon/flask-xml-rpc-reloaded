@@ -4,6 +4,10 @@ This is a library that lets your Flask apps provide XML-RPC APIs. A small
 example is included.
 
 
+## Install
+``pip install flask-xml-rpc-re``
+
+
 ## Compatible to Flask-XML-RPC
 Flask-XML-RPC-Reloaded is a fork of the original Flask-XML-RPC, which was unfortuately abandoned.
 This version should be 100% compatible and therefore a drop-in replacement for Flask-XML-RPC.
