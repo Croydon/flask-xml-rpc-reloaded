@@ -9,7 +9,7 @@ example is included.
 
 
 ## Compatible to Flask-XML-RPC
-Flask-XML-RPC-Reloaded is a fork of the original Flask-XML-RPC, which was unfortuately abandoned.
+Flask-XML-RPC-Reloaded is a fork of the original Flask-XML-RPC, which was unfortunately abandoned.
 This version should be 100% compatible and therefore a drop-in replacement for Flask-XML-RPC.
 
 
