@@ -23,7 +23,7 @@ setup(
     author_email='flask@go-dev.de',
     description='Adds support for creating XML-RPC APIs to Flask',
     long_description=__doc__,
-    packages=['flaskext'],
+    packages=['flask_xmlrpcre', 'flaskext'],
     namespace_packages=['flaskext'],
     zip_safe=False,
     platforms='any',
