@@ -257,7 +257,7 @@ def load_method_response(response):
     try:
         return xmlrpclib.loads(response)[0][0]
     except Fault:
-        _, fault = sys.exec_info()[:2]
+        _, fault = sys.exc_info()[:2]
         return fault
 
 
