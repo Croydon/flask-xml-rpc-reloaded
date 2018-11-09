@@ -23,6 +23,7 @@ else:
 
 Fault = xmlrpclib.Fault
 
+
 class XMLRPCHandler(Dispatcher):
     """
     This is the basic XML-RPC handler class. To use it, you create it::
@@ -235,15 +236,16 @@ class XMLRPCNamespace(object):
         return XMLRPCNamespace(self.handler, self.prefix + '.' + name)
 
 
-def dump_method_call(method, *params):
+def dump_method_call(method, *params, allow_none=False):
     """
     This marshals the given method and parameters into a proper XML-RPC method
     call. It's very useful for testing.
 
     :param method: The name of the method to call.
     :param params: The parameters to pass to the method.
+    :param allow_none: Allow to marshal None values.
     """
-    return xmlrpclib.dumps(params, methodname=method)
+    return xmlrpclib.dumps(params, methodname=method, allow_none=allow_none)
 
 
 def load_method_response(response):
@@ -261,7 +263,7 @@ def load_method_response(response):
         return fault
 
 
-def test_xmlrpc_call(client, rpc_path, method, *params):
+def test_xmlrpc_call(client, rpc_path, method, *params, allow_none=False):
     """
     This makes a method call using a Werkzeug :obj:`Client`, such as the one
     returned by :meth:`flask.Flask.test_client`. It constructs the method
@@ -272,10 +274,11 @@ def test_xmlrpc_call(client, rpc_path, method, *params):
     :param rpc_path: The path to the XML-RPC handler.
     :param method: The method to call.
     :param params: The parameters to pass to the method.
+    :param allow_none: Allow to pass None values.
     """
     rv = client.post(
         rpc_path,
-        data=dump_method_call(method, *params),
+        data=dump_method_call(method, *params, allow_none=allow_none),
         content_type='text/xml'
     )
     return load_method_response(rv.data)
@@ -291,12 +294,14 @@ class XMLRPCTester(object):
 
     :param client: A :obj:`werkzeug.Client`.
     :param rpc_path: The path to the XML-RPC handler.
+    :param allow_none: Allow to pass None values.
     """
     __test__ = False    # prevents Nose from collecting it
 
-    def __init__(self, client, rpc_path):
+    def __init__(self, client, rpc_path, allow_none=False):
         self.client = client
         self.rpc_path = rpc_path
+        self.allow_none = allow_none
 
     def call(self, method, *params):
         """
@@ -313,7 +318,8 @@ class XMLRPCTester(object):
         :param method: The name of the method to call.
         :param params: The parameters to pass to the method.
         """
-        return test_xmlrpc_call(self.client, self.rpc_path, method, *params)
+        return test_xmlrpc_call(self.client, self.rpc_path, method, *params,
+                                allow_none=self.allow_none)
 
     def __call__(self, method, *params):
         return self.call(method, *params)
