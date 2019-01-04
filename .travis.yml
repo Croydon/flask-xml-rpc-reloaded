@@ -1,0 +1,38 @@
+os: linux
+dist: xenial
+language: python
+python: "3.7"
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+git:
+  depth: 5
+
+install:
+  - set -e
+  - python3 -m pip install --upgrade setuptools wheel
+
+script:
+  - python3 setup.py sdist bdist_wheel
+
+deploy:
+  - provider: pypi
+    user: ${PYPI_USERNAME}
+    password: ${PYPI_PASSWORD}
+    on:
+      tags: true
+      condition: "$TRAVIS_OS_NAME = 'linux'"
+    skip_cleanup: true
+    skip_existing: true
+  - provider: pypi
+    user: ${TEST_PYPI_USERNAME}
+    server: https://test.pypi.org/legacy/
+    password: ${TEST_PYPI_PASSWORD}
+    on:
+      branch: master
+      condition: "$TRAVIS_OS_NAME = 'linux'"
+    skip_cleanup: true
+    skip_existing: true
