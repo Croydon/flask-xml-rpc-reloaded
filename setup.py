@@ -16,7 +16,7 @@ from setuptools import setup
 
 setup(
     name='Flask-XML-RPC-Re',
-    version='0.1.3',
+    version='0.1.4',
     url='https://github.com/Croydon/flask-xml-rpc-reloaded',
     license='MIT',
     author='Matthew "LeafStorm" Frazier',
