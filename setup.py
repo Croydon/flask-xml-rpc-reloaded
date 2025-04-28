@@ -24,7 +24,6 @@ setup(
     description='Adds support for creating XML-RPC APIs to Flask',
     long_description=__doc__,
     packages=['flask_xmlrpcre', 'flaskext'],
-    namespace_packages=['flaskext'],
     zip_safe=False,
     platforms='any',
     install_requires=[
