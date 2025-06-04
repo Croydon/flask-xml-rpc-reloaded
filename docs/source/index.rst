@@ -25,19 +25,12 @@ Features
 
 Install
 =======
-If you're using easy_install, then run this command to install Flask-XML-RPC-Re:
 
-.. sourcecode:: console
-   
-   $ easy_install Flask-XML-RPC-Re
-
-Or, if you're using `pip`_ (which is recommended, since it's awesome):
+If you're using `pip`_:
 
 .. sourcecode:: console
    
    $ pip install Flask-XML-RPC-Re
-
-.. _pip: http://pip.openplans.org/
 
 
 A Simple Example
