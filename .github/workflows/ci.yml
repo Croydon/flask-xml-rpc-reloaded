@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: docs
-          path: "../docs"
+          path: "docs"
 
       - name: Upload test documentation
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
