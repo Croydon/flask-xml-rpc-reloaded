@@ -77,6 +77,7 @@ jobs:
           TAG_NAME="${GITHUB_REF#refs/tags/}"
           rm -rf docs-repository/latest/*
           cp -r docs/build/html/* docs-repository/latest/
+          mkdir -p docs-repository/$TAG_NAME/
           cp -r docs/build/html/* docs-repository/$TAG_NAME/
           cd docs-repository/
           git config user.name "${{ secrets.BOT_NAME }}"
