@@ -21,6 +21,13 @@ This version should be 100% compatible and therefore a drop-in replacement for F
  * Uses the new Flask extension naming scheme thanks to [Félix Bouliane](https://bitbucket.org/felixbouliane/) ([PR](https://bitbucket.org/leafstorm/flask-xml-rpc/pull-requests/4/use-the-new-flask-naming-scheme/diff))
 
 
+## Generate Docs
+
+``pip install .[dev]``
+
+``sphinx-build -b html docs/source docs/build/html``
+
+
 ## Resources
 
  * PyPI:                   https://pypi.org/project/Flask-XML-RPC-Re/
