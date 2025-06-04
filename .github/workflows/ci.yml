@@ -34,6 +34,7 @@ jobs:
       - name: Build docs
         run: |
           sphinx-build -b html docs/source docs/build/html
+          find . -type f -name "*.html" | while read -r file; do sed -i 's|_static/|./_static/|g' "$file"; done
 
       - name: Checkout docs branch
         uses: actions/checkout@v4
