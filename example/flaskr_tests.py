@@ -42,18 +42,19 @@ class FlaskrTestCase(unittest.TestCase):
     def test_empty_db(self):
         """Start with a blank database"""
         rv = self.app.get('/')
-        assert 'No entries here so far' in rv.data
+        data = rv.data.decode("utf-8")
+        assert 'No entries here so far' in data
 
     def test_login_logout(self):
         """Make sure login and logout works"""
         rv = self.login(flaskr.USERNAME, flaskr.PASSWORD)
-        assert 'You were logged in' in rv.data
+        assert 'You were logged in' in rv.data.decode("utf-8")
         rv = self.logout()
-        assert 'You were logged out' in rv.data
+        assert 'You were logged out' in rv.data.decode("utf-8")
         rv = self.login(flaskr.USERNAME + 'x', flaskr.PASSWORD)
-        assert 'Invalid username' in rv.data
+        assert 'Invalid username' in rv.data.decode("utf-8")
         rv = self.login(flaskr.USERNAME, flaskr.PASSWORD + 'x')
-        assert 'Invalid password' in rv.data
+        assert 'Invalid password' in rv.data.decode("utf-8")
 
     def test_messages(self):
         """Test that messages work"""
@@ -62,9 +63,10 @@ class FlaskrTestCase(unittest.TestCase):
             title='<Hello>',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert 'No entries here so far' not in rv.data
-        assert '&lt;Hello&gt' in rv.data
-        assert '<strong>HTML</strong> allowed here' in rv.data
+        data = rv.data.decode("utf-8")
+        assert 'No entries here so far' not in data
+        assert '&lt;Hello&gt' in data
+        assert '<strong>HTML</strong> allowed here' in data
 
     def test_xmlrpc(self):
         """Verify that the API methods work"""
