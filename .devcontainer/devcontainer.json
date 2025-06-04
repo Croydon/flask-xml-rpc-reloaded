@@ -1,0 +1,19 @@
+{
+    "name": "Python 3.7",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.pythonPath": "/usr/local/bin/python"
+            },
+            "extensions": [
+                "ms-python.python"
+            ]
+        }
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "cd /workspace && pip install --upgrade pip setuptools wheel && pip install .[dev,test]"
+}
