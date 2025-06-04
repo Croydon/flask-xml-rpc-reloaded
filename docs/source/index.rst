@@ -12,8 +12,8 @@ Flask-XML-RPC-Re
 Flask-XML-RPC-Re is an extension for `Flask`_ that makes it easy to create APIs
 based on the `XML-RPC`_ standard.
 
-.. _Flask: http://flask.pocoo.org/
-.. _XML-RPC: http://www.xmlrpc.com/
+.. _Flask: https://flask.palletsprojects.com
+.. _XML-RPC: https://en.wikipedia.org/wiki/XML-RPC
 
 
 Features
