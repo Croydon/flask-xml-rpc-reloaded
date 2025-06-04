@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Flask-XML-RPC-Re &#8212; Flask-XML-RPC-Re 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/flasky.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+  
+  
+  <div class=indexwrapper>
+  
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="flask-xml-rpc-re">
+<h1>Flask-XML-RPC-Re<a class="headerlink" href="#flask-xml-rpc-re" title="Permalink to this heading">¶</a></h1>
+<span class="target" id="module-flask_xmlrpcre"></span><p>Flask-XML-RPC-Re is an extension for <a class="reference external" href="http://flask.pocoo.org/">Flask</a> that makes it easy to create APIs
+based on the <a class="reference external" href="http://www.xmlrpc.com/">XML-RPC</a> standard.</p>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Easy registration of methods and namespacing</p></li>
+<li><p>Connects seamlessly to your Flask app</p></li>
+<li><p>Includes plenty of testing helpers</p></li>
+</ul>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this heading">¶</a></h2>
+<p>If you’re using easy_install, then run this command to install Flask-XML-RPC-Re:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>easy_install<span class="w"> </span>Flask-XML-RPC-Re
+</pre></div>
+</div>
+<p>Or, if you’re using <a class="reference external" href="http://pip.openplans.org/">pip</a> (which is recommended, since it’s awesome):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>Flask-XML-RPC-Re
+</pre></div>
+</div>
+</section>
+<section id="a-simple-example">
+<h2>A Simple Example<a class="headerlink" href="#a-simple-example" title="Permalink to this heading">¶</a></h2>
+<p>This is a REALLY simple example of how to create your own API using
+Flask-XML-RPC-Re.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">flask_xmlrpcre</span> <span class="kn">import</span> <span class="n">XMLRPCHandler</span><span class="p">,</span> <span class="n">Fault</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">handler</span> <span class="o">=</span> <span class="n">XMLRPCHandler</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;/api&#39;</span><span class="p">)</span>
+
+<span class="nd">@handler</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Fault</span><span class="p">(</span><span class="s2">&quot;unknown_recipient&quot;</span><span class="p">,</span> <span class="s2">&quot;I need someone to greet!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello, </span><span class="si">%s</span><span class="s2">!&quot;</span> <span class="o">%</span> <span class="n">name</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="namespacing">
+<h2>Namespacing<a class="headerlink" href="#namespacing" title="Permalink to this heading">¶</a></h2>
+<p>Of course, the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="flask_xmlrpcre.XMLRPCHandler.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a> method can take a name
+if you want to use dotted names, but it’s easier to use namespaces. You get a
+namespace by calling the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.namespace" title="flask_xmlrpcre.XMLRPCHandler.namespace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">namespace()</span></code></a> method with the
+prefix you want (without the dot).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">XMLRPCHandler</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">)</span>
+<span class="n">blog</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">namespace</span><span class="p">(</span><span class="s1">&#39;blog&#39;</span><span class="p">)</span>
+
+<span class="nd">@blog</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">add_post</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="c1"># do whatever...</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">add_post</span></code> function will then be available as <code class="xref py py-obj docutils literal notranslate"><span class="pre">blog.add_post</span></code>.
+You can create namespaces from namespaces, as well.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blog_media</span> <span class="o">=</span> <span class="n">blog</span><span class="o">.</span><span class="n">namespace</span><span class="p">(</span><span class="s1">&#39;media&#39;</span><span class="p">)</span>
+
+<span class="nd">@blog_media</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="c1"># do whatever...</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>In this case, <code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code> will be available as <code class="xref py py-obj docutils literal notranslate"><span class="pre">blog.media.delete</span></code>.
+Namespacing can help you organize your API in a logical way.</p>
+</section>
+<section id="testing-your-api">
+<h2>Testing Your API<a class="headerlink" href="#testing-your-api" title="Permalink to this heading">¶</a></h2>
+<p>The easiest way to test your application is with the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCTester" title="flask_xmlrpcre.XMLRPCTester"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLRPCTester</span></code></a>.
+It takes a <cite>werkzeug.TestClient</cite> and the path to your responder. When called
+with the method and params, it will marshal it, make a fake POST request to
+the responder with the client, and demarshal the result for you, returning it
+or a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Fault</span></code>.</p>
+<p>If you’re using a <code class="xref py py-obj docutils literal notranslate"><span class="pre">unittest</span></code>-based setup like the one described in the
+Flask documentation, you could use the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCTester" title="flask_xmlrpcre.XMLRPCTester"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLRPCTester</span></code></a> like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">XMLRPCTester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;/api&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tester</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Hello, world!&#39;</span>
+    <span class="k">assert</span> <span class="n">tester</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;Steve&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Hello, Steve!&#39;</span>
+    <span class="n">fault</span> <span class="o">=</span> <span class="n">tester</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">fault</span><span class="o">.</span><span class="n">faultCode</span> <span class="o">==</span> <span class="s1">&#39;unknown_recipient&#39;</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#flask_xmlrpcre.XMLRPCTester" title="flask_xmlrpcre.XMLRPCTester"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLRPCTester</span></code></a> is actually a wrapper for <a class="reference internal" href="#flask_xmlrpcre.test_xmlrpc_call" title="flask_xmlrpcre.test_xmlrpc_call"><code class="xref py py-func docutils literal notranslate"><span class="pre">test_xmlrpc_call()</span></code></a>,
+which takes the client, responder path, method, and params.</p>
+<p>If you prefer to marshal the XML-RPC data and make the requests yourself,
+the two functions <a class="reference internal" href="#flask_xmlrpcre.dump_method_call" title="flask_xmlrpcre.dump_method_call"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump_method_call()</span></code></a> and <a class="reference internal" href="#flask_xmlrpcre.load_method_response" title="flask_xmlrpcre.load_method_response"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_method_response()</span></code></a>
+are useful wrappers around the low-level <code class="xref py py-obj docutils literal notranslate"><span class="pre">xmlrpclib</span></code> marshaling
+functions.</p>
+</section>
+<section id="using-your-api">
+<h2>Using Your API<a class="headerlink" href="#using-your-api" title="Permalink to this heading">¶</a></h2>
+<p>Practically all programming languages can use XML-RPC. In Python, you can
+call XML-RPC methods with the standard library <code class="xref py py-obj docutils literal notranslate"><span class="pre">xmlrpclib</span></code> module.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span> <span class="o">=</span> <span class="n">xmlrpclib</span><span class="o">.</span><span class="n">ServerProxy</span><span class="p">(</span><span class="s1">&#39;http://localhost:5000/&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span><span class="o">.</span><span class="n">hello</span><span class="p">()</span>
+<span class="go">&#39;Hello, world!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s1">&#39;Steve&#39;</span><span class="p">)</span>
+<span class="go">&#39;Hello, Steve!&#39;</span>
+</pre></div>
+</div>
+<p>For other languages, please check their documentation.</p>
+</section>
+<section id="api-documentation">
+<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flask_xmlrpcre.</span></span><span class="sig-name descname"><span class="pre">XMLRPCHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">introspection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multicall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the basic XML-RPC handler class. To use it, you create it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span> <span class="o">=</span> <span class="n">XMLRPCHandler</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, you can register functions with the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register" title="flask_xmlrpcre.XMLRPCHandler.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@handler</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">spam</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register" title="flask_xmlrpcre.XMLRPCHandler.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a> is just an alias for <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="flask_xmlrpcre.XMLRPCHandler.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a>, so you
+can use that too.
+You can also register an instance using the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_instance" title="flask_xmlrpcre.XMLRPCHandler.register_instance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_instance()</span></code></a>
+method, and any methods on said instance will be exposed if they do not
+start with an <code class="docutils literal notranslate"><span class="pre">_</span></code>.</p>
+<p>Then, you connect it to a <a class="reference external" href="https://flask.palletsprojects.com/en/stable/api/#flask.Flask" title="(in Flask v3.1.x)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flask</span></code></a> instance or a Flask
+module with the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.connect" title="flask_xmlrpcre.XMLRPCHandler.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a> method, like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint_name</strong> – The name to use as an endpoint when connected to
+an app or module. If not specified here, you specify
+when you call <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.connect" title="flask_xmlrpcre.XMLRPCHandler.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a>.</p></li>
+<li><p><strong>instance</strong> – The instance to register and expose the methods of.</p></li>
+<li><p><strong>introspection</strong> – Whether to register the introspection functions,
+like <code class="xref py py-obj docutils literal notranslate"><span class="pre">system.listMethods</span></code>. (It will by
+default.)</p></li>
+<li><p><strong>multicall</strong> – Whether to register the <code class="xref py py-obj docutils literal notranslate"><span class="pre">system.multicall</span></code>
+function. (It won’t by default.)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects the handler to an app or module. You have to provide the
+app and the URL route to use. The route can’t contain any variable
+parts, because there is no way to get them to the method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;/api&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_module</strong> – The app or module to connect the handler to.</p></li>
+<li><p><strong>route</strong> – The URL route to use for the handler.</p></li>
+<li><p><strong>endpoint_name</strong> – The name to use when connecting the endpoint.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler.handle_request">
+<span class="sig-name descname"><span class="pre">handle_request</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler.handle_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the actual request handler that is routed by <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.connect" title="flask_xmlrpcre.XMLRPCHandler.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a>.
+It takes the request data, dispatches the method, and sends it back
+to the client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler.namespace">
+<span class="sig-name descname"><span class="pre">namespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler.namespace" title="Permalink to this definition">¶</a></dt>
+<dd><p>This returns a <a class="reference internal" href="#flask_xmlrpcre.XMLRPCNamespace" title="flask_xmlrpcre.XMLRPCNamespace"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLRPCNamespace</span></code></a> object, which has
+<a class="reference internal" href="#flask_xmlrpcre.XMLRPCNamespace.register" title="flask_xmlrpcre.XMLRPCNamespace.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a> and
+<a class="reference internal" href="#flask_xmlrpcre.XMLRPCNamespace.register_function" title="flask_xmlrpcre.XMLRPCNamespace.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a> methods. These forward
+directly to the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="flask_xmlrpcre.XMLRPCHandler.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a> method of the parent they
+were created from, but they will prepend the given prefix, plus a dot,
+to the name registered. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blog</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">namespace</span><span class="p">(</span><span class="s1">&#39;blog&#39;</span><span class="p">)</span>
+
+<span class="nd">@blog</span><span class="o">.</span><span class="n">register</span>
+<span class="k">def</span> <span class="nf">new_post</span><span class="p">(</span><span class="n">whatever</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>would make <code class="xref py py-obj docutils literal notranslate"><span class="pre">new_post</span></code> available as <code class="xref py py-obj docutils literal notranslate"><span class="pre">blog.new_post</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prefix</strong> – The name to prefix the methods with.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>An alias for <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="flask_xmlrpcre.XMLRPCHandler.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler.register_function">
+<span class="sig-name descname"><span class="pre">register_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will register the given function. There are two ways to use it.</p>
+<p>As a plain old method, with or without a name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">spam</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="n">spam</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As a decorator, also with or without a name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@handler</span><span class="o">.</span><span class="n">register_function</span>
+<span class="k">def</span> <span class="nf">spam</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="nd">@handler</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="s1">&#39;spam&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">spam</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>It’s shorter and easier to use <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register" title="flask_xmlrpcre.XMLRPCHandler.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a>, however, as it does
+the exact same thing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> – The function to register. (In the named decorator
+form, this is the function’s name.)</p></li>
+<li><p><strong>name</strong> – The name to use, except in the named decorator form.
+If not given, the function’s <code class="xref py py-obj docutils literal notranslate"><span class="pre">__name__</span></code> attribute
+will be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCHandler.register_instance">
+<span class="sig-name descname"><span class="pre">register_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_dotted_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCHandler.register_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>This registers any kind of object. If the requested method hasn’t been
+registered by <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="flask_xmlrpcre.XMLRPCHandler.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a>, it will be checked against
+the instance. You can only have one instance at a time, however.</p>
+<p>If <code class="xref py py-obj docutils literal notranslate"><span class="pre">allow_dotted_names</span></code> is True, the name will be split on the
+dots and the object will be traveled down recursively. However, this
+is a <strong>HUGE SECURITY LOOPHOLE</strong>, as while private methods (starting
+with <code class="docutils literal notranslate"><span class="pre">_</span></code>) will not be exposed, it’s still possible that someone
+could get access to your globals and do very bad things. So don’t
+do it unless you have a very good reason.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>instance</strong> – The instance to register.</p></li>
+<li><p><strong>allow_dotted_names</strong> – Whether to resolve dots in method names.
+You probably shouldn’t.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCNamespace">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flask_xmlrpcre.</span></span><span class="sig-name descname"><span class="pre">XMLRPCNamespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCNamespace" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a simple proxy that can register methods, and passes them on to
+the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler" title="flask_xmlrpcre.XMLRPCHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">XMLRPCHandler</span></code></a> that created it with a given name added as a
+prefix (with a dot). For more nesting, you can create namespaces from
+namespaces with the <a class="reference internal" href="#flask_xmlrpcre.XMLRPCNamespace.namespace" title="flask_xmlrpcre.XMLRPCNamespace.namespace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">namespace()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handler</strong> – The handler to pass the methods to.</p></li>
+<li><p><strong>prefix</strong> – The prefix to give to the assigned methods. A dot will
+be appended.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCNamespace.namespace">
+<span class="sig-name descname"><span class="pre">namespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCNamespace.namespace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns another namespace for the same handler, with the given name
+postfixed to the current namespace’s prefix. For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span><span class="o">.</span><span class="n">namespace</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">namespace</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>gives the same result as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">handler</span><span class="o">.</span><span class="n">namespace</span><span class="p">(</span><span class="s1">&#39;foo.bar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prefix</strong> – The name to prefix the methods with.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCNamespace.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCNamespace.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>An alias for <a class="reference internal" href="#flask_xmlrpcre.XMLRPCNamespace.register_function" title="flask_xmlrpcre.XMLRPCNamespace.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_function()</span></code></a>. As with
+<a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register" title="flask_xmlrpcre.XMLRPCHandler.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">XMLRPCHandler.register()</span></code></a>, it’s shorter and easier to type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCNamespace.register_function">
+<span class="sig-name descname"><span class="pre">register_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCNamespace.register_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a function. Use is the same as with the
+<a class="reference internal" href="#flask_xmlrpcre.XMLRPCHandler.register_function" title="flask_xmlrpcre.XMLRPCHandler.register_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">XMLRPCHandler.register_function()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> – The function to register. (In the named decorator
+form, this is the function’s name.)</p></li>
+<li><p><strong>name</strong> – The name to use, except in the named decorator form.
+If not given, the function’s <code class="xref py py-obj docutils literal notranslate"><span class="pre">__name__</span></code> attribute
+will be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="testing-api">
+<h3>Testing API<a class="headerlink" href="#testing-api" title="Permalink to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCTester">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flask_xmlrpcre.</span></span><span class="sig-name descname"><span class="pre">XMLRPCTester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rpc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCTester" title="Permalink to this definition">¶</a></dt>
+<dd><p>This lets you conveniently make method calls using a Werkzeug
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">Client</span></code>, like the one returned by <a class="reference external" href="https://flask.palletsprojects.com/en/stable/api/#flask.Flask.test_client" title="(in Flask v3.1.x)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flask.Flask.test_client()</span></code></a>.
+You create it with the <code class="xref py py-obj docutils literal notranslate"><span class="pre">Client</span></code> and the path to the responder, and
+then you call it with the method and params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – A <code class="xref py py-obj docutils literal notranslate"><span class="pre">werkzeug.Client</span></code>.</p></li>
+<li><p><strong>rpc_path</strong> – The path to the XML-RPC handler.</p></li>
+<li><p><strong>allow_none</strong> – Allow to pass None values.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flask_xmlrpcre.XMLRPCTester.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.XMLRPCTester.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This calls the client’s <code class="xref py py-obj docutils literal notranslate"><span class="pre">post</span></code> method with the responder path,
+the marshaled method call, and a content type of <code class="docutils literal notranslate"><span class="pre">text/xml</span></code>. It will
+return the unmarshaled response or fault.</p>
+<p>You can just call the instance like a function for the same effect.
+These two calls are equivalent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tester</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">)</span>
+<span class="n">tester</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> – The name of the method to call.</p></li>
+<li><p><strong>params</strong> – The parameters to pass to the method.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flask_xmlrpcre.test_xmlrpc_call">
+<span class="sig-prename descclassname"><span class="pre">flask_xmlrpcre.</span></span><span class="sig-name descname"><span class="pre">test_xmlrpc_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rpc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.test_xmlrpc_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This makes a method call using a Werkzeug <code class="xref py py-obj docutils literal notranslate"><span class="pre">Client</span></code>, such as the one
+returned by <a class="reference external" href="https://flask.palletsprojects.com/en/stable/api/#flask.Flask.test_client" title="(in Flask v3.1.x)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">flask.Flask.test_client()</span></code></a>. It constructs the method
+call, makes the request, and then returns the response value or a
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">Fault</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – A <code class="xref py py-obj docutils literal notranslate"><span class="pre">werkzeug.Client</span></code>.</p></li>
+<li><p><strong>rpc_path</strong> – The path to the XML-RPC handler.</p></li>
+<li><p><strong>method</strong> – The method to call.</p></li>
+<li><p><strong>params</strong> – The parameters to pass to the method.</p></li>
+<li><p><strong>allow_none</strong> – Allow to pass None values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flask_xmlrpcre.dump_method_call">
+<span class="sig-prename descclassname"><span class="pre">flask_xmlrpcre.</span></span><span class="sig-name descname"><span class="pre">dump_method_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.dump_method_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This marshals the given method and parameters into a proper XML-RPC method
+call. It’s very useful for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> – The name of the method to call.</p></li>
+<li><p><strong>params</strong> – The parameters to pass to the method.</p></li>
+<li><p><strong>allow_none</strong> – Allow to marshal None values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flask_xmlrpcre.load_method_response">
+<span class="sig-prename descclassname"><span class="pre">flask_xmlrpcre.</span></span><span class="sig-name descname"><span class="pre">load_method_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_xmlrpcre.load_method_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>This returns the actual value returned from an XML-RPC response. If it’s
+a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Fault</span></code> instance, it will return the fault instead of the value.
+This is also useful for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>response</strong> – The marshaled XML-RPC method response or fault.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+
+  
+  </div>
+  
+
+  </body>
+</html>
