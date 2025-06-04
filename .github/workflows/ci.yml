@@ -34,12 +34,46 @@ jobs:
         run: |
           sphinx-build -b html docs/source docs/build/html
 
+      - name: Checkout docs branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs
+          path: "../docs"
+
+      - name: Upload test documentation
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+        run: |
+          rm -rf ../docs/main/*
+          cp -r docs/build/html/* ../docs/main/
+          cd ../docs
+          git config user.name "${{ secrets.BOT_NAME }}"
+          git config user.email "${{ secrets.BOT_EMAIL }}"
+          git add . -A
+          git commit -m "Update docs for $GITHUB_SHA" || echo "No changes to commit"
+          git push
+          cd $GITHUB_WORKSPACE
+
       - name: Publish package to Test PyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           print-hash: true
           skip-existing: true
+
+      - name: Upload documentation
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          rm -rf ../docs/latest/*
+          cp -r docs/build/html/* ../docs/latest/
+          cp -r docs/build/html/* ../docs/$TAG_NAME/
+          cd ../docs
+          git config user.name "${{ secrets.BOT_NAME }}"
+          git config user.email "${{ secrets.BOT_EMAIL }}"
+          git add . -A
+          git commit -m "Update docs for $GITHUB_SHA" || echo "No changes to commit"
+          git push
+          cd $GITHUB_WORKSPACE
 
       - name: Publish package to PyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
