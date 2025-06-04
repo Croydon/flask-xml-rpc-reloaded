@@ -70,6 +70,7 @@ jobs:
           cd ../docs
           git config user.name "${{ secrets.BOT_NAME }}"
           git config user.email "${{ secrets.BOT_EMAIL }}"
+          sed -i 's|        <!-- bot maker-->|        <!-- bot maker-->\n        <li><a href="https://croydon.github.io/flask-xml-rpc-reloaded/$TAG_NAME/" title="Documentation for v$TAG_NAME">Version $TAG_NAME<a></li>|' index.html
           git add . -A
           git commit -m "Update docs for $GITHUB_SHA" || echo "No changes to commit"
           git push
