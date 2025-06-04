@@ -38,14 +38,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: docs
-          path: "docs"
+          path: "docs-repository"
 
       - name: Upload test documentation
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
         run: |
-          rm -rf ../docs/main/*
-          cp -r docs/build/html/* ../docs/main/
-          cd ../docs
+          rm -rf docs-repository/main/*
+          cp -r docs/build/html/* docs-repository/main/
+          cd docs-repository
           git config user.name "${{ secrets.BOT_NAME }}"
           git config user.email "${{ secrets.BOT_EMAIL }}"
           git add . -A
@@ -64,10 +64,10 @@ jobs:
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
-          rm -rf ../docs/latest/*
-          cp -r docs/build/html/* ../docs/latest/
-          cp -r docs/build/html/* ../docs/$TAG_NAME/
-          cd ../docs
+          rm -rf docs-repository/latest/*
+          cp -r docs/build/html/* docs-repository/latest/
+          cp -r docs/build/html/* docs-repository/$TAG_NAME/
+          cd docs-repository/
           git config user.name "${{ secrets.BOT_NAME }}"
           git config user.email "${{ secrets.BOT_EMAIL }}"
           sed -i 's|        <!-- bot maker-->|        <!-- bot maker-->\n        <li><a href="https://croydon.github.io/flask-xml-rpc-reloaded/$TAG_NAME/" title="Documentation for v$TAG_NAME">Version $TAG_NAME<a></li>|' index.html
