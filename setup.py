@@ -22,7 +22,7 @@ with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "README.md"),
 
 
 setup(
-    name='Flask-XML-RPC-Re',
+    name='flask-xml-rpc-re',
     version='0.2.0',
     url='https://github.com/Croydon/flask-xml-rpc-reloaded',
     license='MIT',
