@@ -26,7 +26,7 @@ Features
 Install
 =======
 
-If you're using `pip`_:
+If you're using pip:
 
 .. sourcecode:: console
    
