@@ -30,13 +30,11 @@ setup(
     install_requires=[
         'Flask'
     ],
-    tests_require=[
-        'nose'
-    ],
+    extras_require={
+        'dev': ['sphinx'],
+        'test': ['nose'],
+    },
     test_suite='nose.collector',
-    dev_requires=[
-        'sphinx'
-    ],
     keywords='XML-RPC',
     classifiers=[
         'Development Status :: 4 - Beta',
