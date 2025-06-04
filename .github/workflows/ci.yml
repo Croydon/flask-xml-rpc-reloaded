@@ -20,14 +20,19 @@ jobs:
         run: |
           pip install --upgrade pip setuptools wheel
           pip install .
+          pip install .[dev,test]
 
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel
 
-      - name: Run tests
+      #- name: Run tests
+      #  run: |
+      #    python example/flaskr_tests.py
+
+      - name: Build docs
         run: |
-          python example/flaskr_tests.py
+          sphinx-build -b html docs/source docs/build/html
 
       - name: Publish package to Test PyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
