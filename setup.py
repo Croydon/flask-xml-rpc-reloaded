@@ -1,28 +1,36 @@
 """
 Flask-XML-RPC-Re
--------------
+----------------
 Flask-XML-RPC-Re adds XML-RPC support to Flask. This way, you can provide simple
 APIs easily accessible from almost any programming language.
 
 Links
 `````
 
-* `documentation <http://packages.python.org/Flask-XML-RPC-Re>`_
+* `documentation <https://croydon.github.io/flask-xml-rpc-reloaded/>`_
 * `development <https://github.com/Croydon/flask-xml-rpc-reloaded>`_
 
 """
 
 from setuptools import setup
+from codecs import open
+import os
+
+
+with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
+
 
 setup(
     name='Flask-XML-RPC-Re',
-    version='0.1.4',
+    version='0.2.0a1',
     url='https://github.com/Croydon/flask-xml-rpc-reloaded',
     license='MIT',
     author='Matthew "LeafStorm" Frazier',
     author_email='flask@go-dev.de',
     description='Adds support for creating XML-RPC APIs to Flask',
-    long_description=__doc__,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     packages=['flask_xmlrpcre', 'flaskext'],
     zip_safe=False,
     platforms='any',
