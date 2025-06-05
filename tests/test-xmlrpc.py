@@ -8,6 +8,7 @@ Tests for Flask-XML-RPC-Re.
 :license: MIT, see LICENSE for more details.
 """
 
+import unittest
 from flask import Flask
 from flask_xmlrpcre import (XMLRPCHandler, XMLRPCNamespace, Fault,
                              dump_method_call, load_method_response,
@@ -27,20 +28,20 @@ def hello(name='world'):
     return "Hello, %s!" % name
 
 
-class TestHandler(object):
+class TestHandler(unittest.TestCase):
     def test_creation(self):
         handler = XMLRPCHandler('api')
-        assert handler.endpoint_name == 'api'
-        assert 'system.listMethods' in handler.funcs
-        assert 'system.methodHelp' in handler.funcs
-        assert 'system.methodSignature' in handler.funcs
-        assert 'system.multicall' not in handler.funcs
+        self.assertEqual(handler.endpoint_name, 'api')
+        self.assertIn('system.listMethods', handler.funcs)
+        self.assertIn('system.methodHelp', handler.funcs)
+        self.assertIn('system.methodSignature', handler.funcs)
+        self.assertNotIn('system.multicall', handler.funcs)
 
     def test_instance(self):
         handler = XMLRPCHandler('api')
         obj = object()
         handler.register_instance(obj)
-        assert handler.instance is obj
+        self.assertIs(handler.instance, obj)
 
     def test_connect(self):
         handler = XMLRPCHandler('api')
@@ -50,26 +51,26 @@ class TestHandler(object):
             app_handler = app.view_functions[handler.endpoint_name].im_self
         else:
             app_handler = app.view_functions[handler.endpoint_name].__self__
-        assert app_handler is handler
+        self.assertIs(app_handler, handler)
 
     def test_register(self):
         handler = XMLRPCHandler('api')
         handler.register(hello)
-        assert handler.funcs['hello'] is hello
+        self.assertIs(handler.funcs['hello'], hello)
         handler.register(hello, 'hi')
-        assert handler.funcs['hi'] is hello
+        self.assertIs(handler.funcs['hi'], hello)
 
     def test_namespaces(self):
         handler = XMLRPCHandler('api')
         ns = handler.namespace('ns')
-        assert ns.prefix == 'ns'
-        assert ns.handler is handler
+        self.assertEqual(ns.prefix, 'ns')
+        self.assertIs(ns.handler, handler)
         misc = ns.namespace('misc')
-        assert misc.prefix == 'ns.misc'
-        assert misc.handler is handler
+        self.assertEqual(misc.prefix, 'ns.misc')
+        self.assertIs(misc.handler, handler)
 
         misc.register(hello)
-        assert handler.funcs['ns.misc.hello'] is hello
+        self.assertIs(handler.funcs['ns.misc.hello'], hello)
 
     def test_call(self):
         handler = XMLRPCHandler('api')
@@ -81,10 +82,10 @@ class TestHandler(object):
         client = app.test_client()
         rv = client.post('/api', data=data, content_type='text/xml')
         res = load_method_response(rv.data)
-        assert res == 'Hello, Steve!'
+        self.assertEqual(res, 'Hello, Steve!')
 
 
-class TestTestingUtils(object):
+class TestTestingUtils(unittest.TestCase):
     METHOD_RESPONSE = '''\
 <?xml version='1.0'?>
 <methodResponse>
@@ -97,12 +98,16 @@ class TestTestingUtils(object):
 '''
 
     def test_dump_method_call(self):
-        assert (dump_method_call('hello', 'world') ==
-                xmlrpclib.dumps(('world',), methodname='hello'))
+        self.assertEqual(
+            dump_method_call('hello', 'world'),
+            xmlrpclib.dumps(('world',), methodname='hello')
+        )
 
     def test_load_method_response(self):
-        assert (load_method_response(self.METHOD_RESPONSE) ==
-                'Hello, world!')
+        self.assertEqual(
+            load_method_response(self.METHOD_RESPONSE),
+            'Hello, world!'
+        )
 
     def test_test_xmlrpc_call(self):
         handler = XMLRPCHandler('api')
@@ -110,5 +115,10 @@ class TestTestingUtils(object):
         handler.connect(app, '/api')
         handler.register(hello)
 
-        assert (test_xmlrpc_call(app.test_client(), '/api', 'hello') ==
-                'Hello, world!')
+        self.assertEqual(
+            test_xmlrpc_call(app.test_client(), '/api', 'hello'),
+            'Hello, world!'
+        )
+
+if __name__ == '__main__':
+    unittest.main()

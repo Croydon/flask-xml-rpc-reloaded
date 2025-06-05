@@ -39,7 +39,7 @@ setup(
     ],
     extras_require={
         'dev': ['sphinx'],
-        'test': ['nose'],
+        'test': ['nose2'],
     },
     test_suite='nose.collector',
     keywords='XML-RPC',

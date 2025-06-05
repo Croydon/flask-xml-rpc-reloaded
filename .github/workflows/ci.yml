@@ -73,7 +73,7 @@ jobs:
 
       - name: Run tests with nose
         run: |
-          nosetests tests/test-xmlrpc.py
+          nose2 -v
 
       - name: Run tests in the example app
         run: |
