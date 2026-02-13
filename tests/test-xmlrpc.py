@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 test-xmlrpc.py
 ==============
@@ -14,13 +13,7 @@ from flask_xmlrpcre import (XMLRPCHandler, XMLRPCNamespace, Fault,
                              dump_method_call, load_method_response,
                              test_xmlrpc_call, XMLRPCTester)
 
-import sys
-PY2 = sys.version_info[0] == 2
-
-if PY2:
-    import xmlrpclib
-else:
-    import xmlrpc.client as xmlrpclib
+import xmlrpc.client as xmlrpclib
 
 def hello(name='world'):
     if not name:

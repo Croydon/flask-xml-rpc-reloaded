@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 flask_xmlrpcre
 ===============
@@ -12,14 +11,9 @@ Adds support for creating XML-RPC APIs to Flask.
 from flask import request, current_app
 import sys
 
-if sys.version_info[0] == 2:
-    from SimpleXMLRPCServer import SimpleXMLRPCDispatcher as Dispatcher
-    import xmlrpclib
-    string_types = basestring
-else:
-    from xmlrpc.server import SimpleXMLRPCDispatcher as Dispatcher
-    import xmlrpc.client as xmlrpclib
-    string_types = str
+from xmlrpc.server import SimpleXMLRPCDispatcher as Dispatcher
+import xmlrpc.client as xmlrpclib
+string_types = str
 
 Fault = xmlrpclib.Fault
 
@@ -59,10 +53,7 @@ class XMLRPCHandler(Dispatcher):
     """
     def __init__(self, endpoint_name=None, instance=None, introspection=True,
                  multicall=False):
-        if sys.version_info[:2] < (2, 5):
-            Dispatcher.__init__(self)
-        else:
-            Dispatcher.__init__(self, True, 'utf-8')
+        Dispatcher.__init__(self, True, 'utf-8')
         self.endpoint_name = endpoint_name
         if introspection:
             self.register_introspection_functions()
