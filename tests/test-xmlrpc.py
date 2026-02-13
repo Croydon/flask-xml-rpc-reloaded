@@ -40,10 +40,7 @@ class TestHandler(unittest.TestCase):
         handler = XMLRPCHandler('api')
         app = Flask(__name__)
         handler.connect(app, '/api')
-        if PY2:
-            app_handler = app.view_functions[handler.endpoint_name].im_self
-        else:
-            app_handler = app.view_functions[handler.endpoint_name].__self__
+        app_handler = app.view_functions[handler.endpoint_name].__self__
         self.assertIs(app_handler, handler)
 
     def test_register(self):
